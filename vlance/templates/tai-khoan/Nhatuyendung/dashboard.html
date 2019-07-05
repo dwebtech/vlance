@@ -1,0 +1,464 @@
+{% extends 'layout/base.html' %}
+{% block index %}
+    {% load static %}
+ <div class="content-section container">
+
+ <div class="tabbable">
+  <ul class="nav nav-tabs">
+      <li class="active"><a href="#job" data-toggle="tab">Việc Theo Dự Án</a></li>
+      <li><a href="#parttime" data-toggle="tab">Việc Làm PartTime</a></li>
+      <li><a href="#ct" data-toggle="tab">Cuộc Thi</a></li>
+  </ul>
+ <div class="tab-content">
+    <div class="tab-pane active" id="job">
+    <!----------->
+    <div class="row-fluid">
+        <div class="span12">
+            <h1 class="title">Việc Theo Dự Án</h1>
+            <div class="row-fluid page-tabs">
+                <ul>
+                    <li class="active">
+                        <a href="/">
+Việc đã đăng </a>
+                    </li>
+
+                </ul>
+                <div class="border"></div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12 news-client-view">
+                    <div class="span4">
+                        <label for="status_working">Trạng thái:</label>
+                        <select class="span8" id="status_working" onchange="window.open(this.options[this.selectedIndex].value,'_parent')">
+                            <option value=".">Tất cả</option>
+
+                        </select>
+                    </div>
+
+                    <div class="span8">
+                        <a href="javascript:void(0)" class="startus_icon">Ý nghĩa icon</a>
+                    </div>
+                    <div class="block-hidden">
+                        <div class="startus_icon_show">
+                            <div class="left startus-job">
+                                <h3>Trạng thái công việc</h3>
+                                <ul>
+                                    <li><i class="job_open"></i>Dự án đang nhận chào giá</li>
+                                    <li><i class="job_expire"></i>Dự án hết hạn chào giá</li>
+                                    <li><i class="job_awarded"></i>Bạn đã chọn được freelancer</li>
+                                    <li><i class="job_working"></i>Freelancer đang làm việc</li>
+                                    <li><i class="job_cancel_request"></i>Yêu cầu hủy bỏ</li>
+                                    <li><i class="job_cancel"></i>Đã hủy bỏ</li>
+                                    <li><i class="job_finished"></i>Công việc đã hoàn thành</li>
+                                </ul>
+                            </div>
+                            <div class="right payment-icon">
+                                <h3>Trạng thái thanh toán</h3>
+                                <ul>
+                                    <li><i class="payment_waiting_escrow"></i>Đang chờ bạn nạp tiền đặt cọc</li>
+                                    <li><i class="payment_escrowed"></i>Đã nạp tiền cho dự án</li>
+                                    <li><i class="payment_paied"></i>Đã chuyển tiền cho freelancer</li>
+                                    <li><i class="payment_refunded"></i>Đã hoàn tiền cho khách hàng</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $(".startus_icon").click(function(e) {
+                                    $(".startus_icon_show").toggle();
+                                    e.stopPropagation();
+                                });
+                                $('body').click(function() {
+                                    $('.startus_icon_show').hide();
+                                });
+                                $('.startus_icon_show').click(function(e) {
+                                    e.stopPropagation();
+                                });
+                            });
+                        </script>
+                    </div>
+
+                    <table class="table">
+                        <tbody>
+                            <tr class="head-title-tb">
+                                <th class="project-freelancer">Tên dự án</th>
+                                <th class="bid-freelancer">Chào giá</th>
+                                <th class="payment-th">Trạng Thái</th>
+                                <th class="startus-th">Trạng thái</th>
+                                <th class="price-th">Ngân sách</th>
+                                <th class="price-th">Actions</th>
+                            </tr>
+                             {% for job in jobs %}
+                            <tr class="odd updated">
+                                <td class="project-freelancer ">
+                                    <div class="span10 project-info ">
+                                        <div class="title-job">
+                                            <a href="{% url 'vlance:product' job.slug %}">
+                                            {{ job.title }}
+                                            </a>
+                                        </div>
+                                        <div class="freelancer">
+                                            <span>Tìm được {{ job.applicants.count }} freelancer</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="num-bid">
+                                    <a href="{% url 'vlance:employer-dashboard-applicants' job.id %}">
+                                   <button class="btn btn-vl-green" data-placement="top"
+                                           data-content="Danh sách Báo Giá"
+                                           data-original-title="" title="">
+                                            {{ job.applicants.count }} chào giá <i class="fa fa-arrow-up" data-original-title="" title=""></i>
+                                        </button></a>
+                                </td>
+                                <td class="payment-th">
+                                    {% if job.filled %}
+                                            <span class="badge badge-success">Đã Hoàn Thành</span>
+                                        {% else %}
+                                            <span class="badge badge-secondary">Đang Nhận Chào Giá</span>
+                                        {% endif %}
+</i>
+                                </td>
+                                <td class="startus-job">
+                                    <i class="job_expire" data-toggle="popover" data-placement="bottom" data-content="Hết hạn nhận chào giá" data-trigger="hover" data-original-title="" title="">
+</i>
+                                </td>
+                                <td class="price-td">
+                                   {{ job.NS_den }} </td>
+
+                                <td>
+                                        <a href="#" class="btn btn-outline-white-secondary">
+                                            <i class="fa fa-edit"></i>Edit
+                                        </a>
+                                        <br>
+                                        {% if job.filled %}
+                                            <a href="{% url 'vlance:job-mark-filled' job.id %}"
+                                               class="btn btn-outline-white-secondary">
+                                                <i class="fa fa-check-circle-o"></i>
+                                                <span class="hidden-xs hidden-sm">Hoàn Thành</span>
+                                            </a><br>
+                                        {% else %}
+                                            <a href="{% url 'vlance:job-mark-filled' job.id %}"
+                                               class="btn btn-outline-white-secondary">
+                                                <i class="fa fa-check-circle-o"></i>
+                                                <span class="hidden-xs hidden-sm">Đánh dấu </span> hoàn thành
+                                            </a><br>
+
+                                        {% endif %}
+                                        <a href="{% url 'vlance:job-delete' job.id %}" class="btn btn-outline-white-secondary">
+                                            <i class="fa fa-times-circle-o"></i>Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="row-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---------->
+      </div>
+
+ <div class="tab-pane" id="parttime">
+       <!----------->
+    <div class="row-fluid">
+        <div class="span12">
+            <h1 class="title">Việc Làm PartTime</h1>
+            <div class="row-fluid page-tabs">
+                <ul>
+                    <li class="active">
+                        <a href="/">
+Việc đã đăng </a>
+                    </li>
+
+                </ul>
+                <div class="border"></div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12 news-client-view">
+                    <div class="span4">
+                        <label for="status_working">Trạng thái:</label>
+                        <select class="span8" id="status_working" onchange="window.open(this.options[this.selectedIndex].value,'_parent')">
+                            <option value=".">Tất cả</option>
+
+                        </select>
+                    </div>
+
+                    <div class="span8">
+                        <a href="javascript:void(0)" class="startus_icon">Ý nghĩa icon</a>
+                    </div>
+                    <div class="block-hidden">
+                        <div class="startus_icon_show">
+                            <div class="left startus-job">
+                                <h3>Trạng thái công việc</h3>
+                                <ul>
+                                    <li><i class="job_open"></i>Dự án đang nhận chào giá</li>
+                                    <li><i class="job_expire"></i>Dự án hết hạn chào giá</li>
+                                    <li><i class="job_awarded"></i>Bạn đã chọn được freelancer</li>
+                                    <li><i class="job_working"></i>Freelancer đang làm việc</li>
+                                    <li><i class="job_cancel_request"></i>Yêu cầu hủy bỏ</li>
+                                    <li><i class="job_cancel"></i>Đã hủy bỏ</li>
+                                    <li><i class="job_finished"></i>Công việc đã hoàn thành</li>
+                                </ul>
+                            </div>
+                            <div class="right payment-icon">
+                                <h3>Trạng thái thanh toán</h3>
+                                <ul>
+                                    <li><i class="payment_waiting_escrow"></i>Đang chờ bạn nạp tiền đặt cọc</li>
+                                    <li><i class="payment_escrowed"></i>Đã nạp tiền cho dự án</li>
+                                    <li><i class="payment_paied"></i>Đã chuyển tiền cho freelancer</li>
+                                    <li><i class="payment_refunded"></i>Đã hoàn tiền cho khách hàng</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $(".startus_icon").click(function(e) {
+                                    $(".startus_icon_show").toggle();
+                                    e.stopPropagation();
+                                });
+                                $('body').click(function() {
+                                    $('.startus_icon_show').hide();
+                                });
+                                $('.startus_icon_show').click(function(e) {
+                                    e.stopPropagation();
+                                });
+                            });
+                        </script>
+                    </div>
+
+                    <table class="table">
+                        <tbody>
+                            <tr class="head-title-tb">
+                                <th class="project-freelancer">Tên dự án</th>
+                                <th class="bid-freelancer">Chào giá</th>
+                                <th class="payment-th">Trạng Thái</th>
+                                <th class="startus-th">Trạng thái</th>
+                                <th class="price-th">Ngân sách</th>
+                                <th class="price-th">Actions</th>
+                            </tr>
+                             {% for jobpt in jpt %}
+                            <tr class="odd updated">
+                                <td class="project-freelancer ">
+                                    <div class="span10 project-info ">
+                                        <div class="title-job">
+                                            <a href="{% url 'vlance:viec-onsite' jobpt.slug %}">
+                                            {{ jobpt.title }}
+                                            </a>
+                                        </div>
+                                        <div class="freelancer">
+                                            <span>Tìm được {{ jobpt.cvonsite.count }} freelancer</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="num-bid">
+                                    <a href="{% url 'vlance:employer-dashboard-applicants-pt' jobpt.id %}">
+                                   <button class="btn btn-vl-green" data-placement="top"
+                                           data-content="Danh sách Báo Giá"
+                                           data-original-title="" title="">
+                                            {{ jobpt.cvonsite.count }} chào giá <i class="fa fa-arrow-up" data-original-title="" title=""></i>
+                                        </button></a>
+                                </td>
+                                <td class="payment-th">
+                                    {% if jobpt.filled %}
+                                            <span class="badge badge-success">Đã Hoàn Thành</span>
+                                        {% else %}
+                                            <span class="badge badge-secondary">Đang Nhận Chào Giá</span>
+                                        {% endif %}
+</i>
+                                </td>
+                                <td class="startus-job">
+                                    <i class="job_expire" data-toggle="popover" data-placement="bottom"
+                                       data-content="Hết hạn nhận chào giá" data-trigger="hover" data-original-title="" title="">
+</i>
+                                </td>
+                                <td class="price-td">
+                                   {{ jobpt.NS_den }} </td>
+
+                                <td>
+                                        <a href="#" class="btn btn-outline-white-secondary">
+                                            <i class="fa fa-edit"></i>Edit
+                                        </a>
+                                        <br>
+                                        {% if jobpt.filled %}
+                                            <a href="{% url 'vlance:jobpt-mark-filled' jobpt.id %}"
+                                               class="btn btn-outline-white-secondary">
+                                                <i class="fa fa-check-circle-o"></i>
+                                                <span class="hidden-xs hidden-sm">Hoàn Thành</span>
+                                            </a><br>
+                                        {% else %}
+                                            <a href="{% url 'vlance:jobpt-mark-filled' jobpt.id %}"
+                                               class="btn btn-outline-white-secondary">
+                                                <i class="fa fa-check-circle-o"></i>
+                                                <span class="hidden-xs hidden-sm">Đánh dấu </span> hoàn thànhs
+                                            </a><br>
+
+                                        {% endif %}
+                                        <a href="{% url 'vlance:jobpt-delete' jobpt.id %}" class="btn btn-outline-white-secondary">
+                                            <i class="fa fa-times-circle-o"></i>Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="row-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---------->
+    </div>
+
+  <div class="tab-pane" id="ct">
+       <!----------->
+    <div class="row-fluid">
+        <div class="span12">
+            <h1 class="title">Danh sách cuộc thi đã đăng</h1>
+            <div class="row-fluid page-tabs">
+                <ul>
+                    <li class="active">
+                        <a href="/">
+Danh sách các cuộc thi </a>
+                    </li>
+
+                </ul>
+                <div class="border"></div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12 news-client-view">
+                    <div class="span4">
+                        <label for="status_working">Trạng thái:</label>
+                        <select class="span8" id="status_working" onchange="window.open(this.options[this.selectedIndex].value,'_parent')">
+                            <option value=".">Tất cả</option>
+
+                        </select>
+                    </div>
+
+                    <div class="span8">
+                        <a href="javascript:void(0)" class="startus_icon">Ý nghĩa icon</a>
+                    </div>
+                    <div class="block-hidden">
+                        <div class="startus_icon_show">
+                            <div class="left startus-job">
+
+                            </div>
+                            <div class="right payment-icon">
+                                <h3>Trạng thái thanh toán</h3>
+
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $(".startus_icon").click(function(e) {
+                                    $(".startus_icon_show").toggle();
+                                    e.stopPropagation();
+                                });
+                                $('body').click(function() {
+                                    $('.startus_icon_show').hide();
+                                });
+                                $('.startus_icon_show').click(function(e) {
+                                    e.stopPropagation();
+                                });
+                            });
+                        </script>
+                    </div>
+
+                    <table class="table">
+                        <tbody>
+                            <tr class="head-title-tb">
+                                <th class="project-freelancer">Tên dự án</th>
+                                <th class="bid-freelancer">Bài Thi</th>
+                                <th class="payment-th">Trạng Thái</th>
+                                <th class="startus-th">Trạng thái</th>
+                                <th class="price-th">Giải Thưởng</th>
+                                <th class="price-th">Actions</th>
+                            </tr>
+                             {% for BaiThi in ct %}
+                            <tr class="odd updated">
+                                <td class="project-freelancer ">
+                                    <div class="span10 project-info ">
+                                        <div class="title-job">
+                                            <a href="{% url 'vlance:Cuoc-Thi-Detail' BaiThi.slug %}">
+                                            {{ BaiThi.title }}
+                                            </a>
+                                        </div>
+                                        <div class="freelancer">
+                                            <span>Tìm được {{ BaiThi.BaiThi.count }} freelancer</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="num-bid">
+                                    <a href="{% url 'vlance:employser-dashboard-applicants-ct' BaiThi.id %}">
+                                   <button class="btn btn-vl-green" data-placement="top"
+                                           data-content="Danh sách bài dự thi"
+                                           data-original-title="" title="">
+                                            {{ BaiThi.BaiThi.count }} bài dự thi <i class="fa fa-arrow-up" data-original-title="" title=""></i>
+                                        </button></a>
+                                </td>
+                                <td class="payment-th">
+                                    {% if BaiThi.filled %}
+                                            <span class="badge badge-success">Đã Hoàn Thành</span>
+                                        {% else %}
+                                            <span class="badge badge-secondary">Đang Nhận Chào Giá</span>
+                                        {% endif %}
+</i>
+                                </td>
+                                <td class="startus-job">
+                                    <i class="job_expire" data-toggle="popover" data-placement="bottom"
+                                       data-content="Hết hạn nhận chào giá" data-trigger="hover" data-original-title="" title="">
+</i>
+                                </td>
+                                <td class="price-td">
+                                   {{ BaiThi.gt }} </td>
+
+                                <td>
+                                        <a href="#" class="btn btn-outline-white-secondary">
+                                            <i class="fa fa-edit"></i>Edit
+                                        </a>
+                                        <br>
+                                        {% if BaiThi.filled %}
+                                            <a href="{% url 'vlance:cuoc-thi-mark-filled' BaiThi.id  %}"
+                                               class="btn btn-outline-white-secondary">
+                                                <i class="fa fa-check-circle-o"></i>
+                                                <span class="hidden-xs hidden-sm">Hoàn Thành</span>
+                                            </a><br>
+                                        {% else %}
+                                            <a href="{% url 'vlance:cuoc-thi-mark-filled'  BaiThi.id  %}"
+                                               class="btn btn-outline-white-secondary">
+                                                <i class="fa fa-check-circle-o"></i>
+                                                <span class="hidden-xs hidden-sm">Đánh dấu </span> hoàn thành
+                                            </a><br>
+
+                                        {% endif %}
+                                        <a href="{% url 'vlance:jobpt-delete'  BaiThi.id %}" class="btn btn-outline-white-secondary">
+                                            <i class="fa fa-times-circle-o"></i>Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="row-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---------->
+    </div>
+  </div>
+</div>
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'layout/base.html' %}
+{% block index %}
+    {% load static %}
+
+
+
+<div class="guider-manage-job">
+    <div class="block-head">
+        <div class="container">
+            <center>
+            <h1>{{ p.title|truncatewords:50 }}</h1>
+                <br>
+            <p>{{ p.created_at|date:'d/m/Y' }}</p>
+            </center>
+
+        </div>
+    </div>
+
+    <div class = "content-blog" style="display: block;">
+
+<p>
+{{ p.description |safe}}
+</p>
+<p></p><p></p><p></p><p></p>
+<span class="tag" style="padding: 10px">
+    <blockquote>
+        <b>Từ khóa :</b>
+       {% for tag in p.tags.all %}
+            <a href="{{ tag.slug }}">{{ tag.name }}</a> ,
+        {% endfor %}
+    </blockquote>
+</span>
+
+</div>
+
+
+</div>
+
+       <style>
+
+  .content-blog{
+       padding: 35px 150px 60px 150px;
+  }
+
+ @media (min-width: 360px) and (max-width: 767px) {
+
+.content-blog {
+    padding: 35px 15px 60px 15px;
+}
+
+}
+
+
+
+    </style>
+
+{% endblock %}

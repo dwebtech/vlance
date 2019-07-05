@@ -1,0 +1,178 @@
+{% extends 'layout/base.html' %}
+{% block index %}
+    {% load static %}
+            <div class="main_content">
+<div class="content-section create-contest">
+    <div class="header">
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span6 side-left">
+                    <h1 class="title">Cuộc thi thiết kế</h1>
+                    <div class="content">
+                        <p>Chỉ thanh toán một lần, nhưng nhận hàng chục mẫu thiết kế chất lượng, độc nhất và đầy sáng tạo.</p>
+                        <ul>
+                            <li>Nhận ngay vài chục mẫu thiết kế chỉ trong 5 ngày.</li>
+                            <li>Dễ dàng chọn ra được mẫu xuất sắc nhất.</li>
+                            <li>Không giới hạn số lần chỉnh sửa.</li>
+                            <li>Thanh toán khi hài lòng 100%.</li>
+                        </ul>
+                    </div>
+                    <div class="button">
+                        <a href="#contest-focus" class="btn btn-vl btn-vl-medium btn-vl-orange">Tạo cuộc thi ngay</a>
+                    </div>
+                </div>
+                <div class="span6 side-right">
+                    <img src="{% static 'img/job-contest/cuoc-thi-thiet-ke.png'%}" title="Cuộc thi thiết kế" alt="Cuộc thi thiết kế">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="progress-contest">
+        <div class="container">
+            <li class="step first">
+                <div class="step-number">Bước đầu tiên</div>
+                <div class="tally">Tạo cuộc thi</div>
+            </li>
+            <li class="step">
+                <div class="step-number">Vòng 1</div>
+                <div class="tally">Nhận mẫu thiết kế</div>
+            </li>
+            <li class="step">
+                <div class="step-number">Vòng 2</div>
+                <div class="tally">Chọn 4 thiết kế xuất sắc</div>
+            </li>
+            <li class="step last">
+                <div class="step-number">Vòng cuối</div>
+                <div class="tally">Chọn thiết kế đẹp nhất & Trao thưởng</div>
+            </li>
+        </div>    
+    </div>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="center-side">            
+                <div class="contest_title" id="contest-focus">
+                    <p>Bước đầu tiên:</p>
+                    <h1>Tạo cuộc thi theo ý bạn</h1>
+                </div>
+                <div class="row-fluid">
+                </div>
+
+                <div class="post-contest-job">
+                    <form id="contest-form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.media }}
+                         <div id="vlance_jobbundle_jobcontesttype" data-display-track="show-contest-form">
+                             <div class="control-group service_wrapper hidejs">
+    <label for="vlance_jobbundle_jobcontesttype_service" >Chọn dịch vụ phù hợp với yêu cầu tuyển freelancer của bạn nhất </label>
+     <select id="linh_vuc"
+             name="linh_vuc"
+             placeholder="Chọn một dịch vụ cần thuê"
+             data-toggle="popover"
+             style="height: 51px;"
+             data-placement="top"
+             data-content="Chọn một dịch vụ cần thuê"
+             data-trigger="hover"
+             class="popovers-input span12">
+    <option value="">- Tên dịch vụ -</option>
+         <option value="Thiết kế Logo">Thiết kế Logo</option>
+         <option value="Thiết kế bộ nhận diện thương hiệu">Thiết kế bộ nhận diện thương hiệu</option>
+         <option value="Thiết kế brochure">Thiết kế brochure</option>
+         <option value="Thiết kế cover và banner Facebook">Thiết kế cover và banner Facebook</option>
+         <option value="Thiết kế giao diện website">Thiết kế giao diện website</option>
+         <option value="Thiết kế flyer">Thiết kế flyer</option>
+         <option value="Thiết kế infographic">Thiết kế infographic</option>
+         <option value="Thiết kế backdrop">Thiết kế backdrop</option>
+         <option value="Thiết kế áo phông / T-shirt">Thiết kế áo phông / T-shirt</option>
+         <option value="Thiết kế nhãn hiệu / bao bì sản phẩm">Thiết kế nhãn hiệu / bao bì sản phẩm</option>
+         <option value="Thiết kế business card">Thiết kế business card</option>
+         <option value="Thiết kế mẫu Powerpoint">Thiết kế mẫu Powerpoint</option>
+         <option value="Thiết kế poster">Thiết kế poster</option>
+         <option value="Thiết kế nội thất">Thiết kế nội thất</option>
+         <option value="Thiết kế lĩnh vực khác">Lĩnh Vực Khác</option>
+     </select>
+                             </div>
+                             <div class="description"></div>
+    <div class="prize-choice">
+        <h3>Giải thưởng</h3>
+        <input type="number" id="gt_id" name="gt" style="height: 90%;"> <span>VNĐ</span>
+
+    </div>
+    <div><div class="control-group ">
+    <label class="required" for="vlance_jobbundle_jobcontesttype_title" >Điền thông tin cuộc thi</label>
+        <input type="text" id="vlance_jobbundle_jobcontesttype_title"
+               name="title"
+               required="required" maxlength="255"
+               placeholder="Tiêu đề cuộc thi (VD: Thiết kế logo tinh tế cho khách sạn cao cấp...)"
+               data-toggle="popover"
+               data-placement="top"
+               data-content="VD: Thiết kế logo"
+               data-trigger="hover"
+               class="popovers-input span12" value=""/>
+    </div>
+    </div>
+    <div>
+        <label>Mô tả </label>
+        {{form.description}}
+    </div>
+
+     <div>
+        <label>Hạn Gửi Bài Thi</label>
+      <input type="date"name="last_date" style="height: 23px;">
+    </div>
+    <div>
+        <div class="fileupload_wrapper">
+            <input type="file" name="file"id="file">
+
+    <script>
+                var multiupload_validate = {"type" : ["png","jpg","gif","pdf","psd","xls","xlsx","doc","docx","ppt","pptx","ods","odt","zip","rar"], "size" : 10485760};
+        var multiupload_sizeerror = "Kích thước file không vượt quá 10MB";
+        var multiupload_typeerror = "File không đúng định dạng ";
+    </script>
+
+        </div>
+
+    </div>
+    <div class="block-private">
+        <div class="row-fluid">
+            <span class="contest_private_block1 span12">
+                <label class="checkbox"><input type="checkbox"
+    id="filled"
+name="filled" value="1"/>Giữ bí mật các bài dự thi (cần thanh toán thêm 15% giá trị giải thưởng)</label>
+            </span>
+            
+        </div>
+        <div class="private_explanation row-fluid">
+            <p>
+                <i>Chỉ mình bạn có quyền được xem tất cả các bài dự thi. Các thí sinh không xem được bài dự thi của nhau. Hạn chế việc sao chép ý tưởng của nhau. Đồng thời đảm bảo được rằng ngoài bạn ra, không một ai khác xem được các mẫu thiết kế tham gia dự thi.</i>
+            </p>
+        </div>
+    </div>
+                         </div>
+
+<div class="clear"></div>
+
+                                                <div class="form-cread-job-btn">
+                            <div class="row-fluid">
+                                <div class="span12">    
+                                    <input id="btn-submit-contest" type="submit" class="btn btn-primary btn-large popup-validate span12" value="Đăng cuộc thi"/>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="accept-agreement span12">
+                                    <p>
+                                        Khi đăng việc, bạn xác nhận đồng ý các <a href="page/dieu-khoan-su-dung-danh-cho-khach-hang.html" target="_blank">điều khoản sử dụng</a> của vLance.vn                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+            </div>
+            
+          
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block index %}
+
+<div class="content-section container">
+    <div class="row-fluid">
+{% include 'tai-khoan/Freelance/layout/sidebar.html' %}
+
+
+            <h3 class="heading">Chỉnh sửa thông tin cơ bản</h3>
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger alert-dismissable">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <form enctype="multipart/form-data" action="" method="post" class="edit-form" >
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.name == 'gender' %}
+                        <div class="clear"></div>
+                        <select id="gender" name="gender" required="required" data-toggle="popover"
+                                                data-placement="top" data-content="Chọn giới tính : Nam - Nữ"
+                                                data-trigger="hover" class="popovers-input valid">
+                            <option disabled="disabled" selected="selected">-Chọn giới tính -</option>
+                            <option value="male" {% if field.value == 'male' %} selected="selected" {% endif %}>Nam</option>
+                            <option value="female" {% if field.value == 'female' %} selected="selected" {% endif %}>Nữ</option>
+                            <option value="other"{% if field.value == 'other' %} selected="selected" {% endif %}>Khác</option>
+
+                        </select>
+                    {% else %}
+                        <div class="clear"></div>
+                        <div class="control-group">
+                            <label for="id_{{ field.name }}">{{ field.label }}</label>
+                        {{ field }}
+                    {% endif %}
+                {% endfor %}
+            <div class="clear"></div>
+                <div class="control-group">
+                    <button type="submit" class="btn btn-outline-white-primary">
+                        <i class="fa fa-signing"></i> Update
+                    </button>
+                </div>
+                </div>
+            </form>
+
+                <script>
+                    var account_edit_validate = {
+                        "type": ["jpg", "jpeg", "png", "gif"],
+                        "size": 1048576,
+                        "mail": 'facebook.com'
+                    };
+                    var account_edit_sizeerror = "Kích thước file không vượt quá 1MB";
+                    var account_edit_typeerror = "File không đúng định dạng jpg, jpeg, png, gif";
+                </script>
+    <div class="clearfix"></div>
+    </div>
+</div>
+
+</div>
+    </div>
+    </div>
+</div></div>
+
+
+{% endblock %}
